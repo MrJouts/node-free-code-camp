@@ -1,5 +1,12 @@
-console.log("¡Hola, Mundo!");
-console.warn("Ocurrió un error...");
-console.error("¡Ocurrió un error!");
+console.log(process);
+console.log(process.env);
+console.log(process.argv);
+// [node, app.js, 6, 7]
+console.log(process.argv[2]);
+console.log(process.argv[3]);
 
-console.error(new Error("¡Ocurrió un error!"));
+for (let i = 2; i < process.argv.length; i++) {
+  console.log(process.argv[i])
+}
+
+console.log(process.memoryUsage());
