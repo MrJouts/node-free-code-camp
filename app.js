@@ -1,12 +1,6 @@
-console.log(process);
-console.log(process.env);
-console.log(process.argv);
-// [node, app.js, 6, 7]
-console.log(process.argv[2]);
-console.log(process.argv[3]);
+const os = require("os");
 
-for (let i = 2; i < process.argv.length; i++) {
-  console.log(process.argv[i])
-}
-
-console.log(process.memoryUsage());
+console.log(os.type());
+console.log(os.homedir());
+console.log(os.uptime() / 60 / 60);
+console.log(os.userInfo());
