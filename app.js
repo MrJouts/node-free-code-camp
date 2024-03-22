@@ -1,4 +1,5 @@
-const { saludar, saludarHolaMundo } = require("./saludos.js");
+console.log("¡Hola, Mundo!");
+console.warn("Ocurrió un error...");
+console.error("¡Ocurrió un error!");
 
-console.log(saludarHolaMundo());
-console.log(saludar("Emiliano"));
+console.error(new Error("¡Ocurrió un error!"));
