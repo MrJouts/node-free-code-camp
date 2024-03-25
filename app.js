@@ -26,6 +26,19 @@ const miPedidoDePizza = new Promise((resolve, reject) => {
 
 // miPedidoDePizza.then(manejarPedido, rechazarPedido);
 
+// miPedidoDePizza
+//     .then((mensajeDeConfirmacion) => console.log(mensajeDeConfirmacion))
+//     .catch((mensajeDeError) => console.log(mensajeDeError));
+
+const manejarPedido = (mensajeDeConfirmacion) => {
+    console.log(mensajeDeConfirmacion);
+};
+
+const manejarRechazo = (mensajeDeError) => {
+    console.log(mensajeDeError);
+};
+
+
 miPedidoDePizza
-    .then((mensajeDeConfirmacion) => console.log(mensajeDeConfirmacion))
-    .then(null, (mensajeDeError) => console.log(mensajeDeError));
+  .then(manejarPedido)
+  .catch(manejarRechazo)
