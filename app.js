@@ -1,23 +1,31 @@
-const EventEmitter = require("events");
+const estatusPedido = () => {
+    return Math.random() < 0.8;
+};
 
-const emisorProductos = new EventEmitter();
+for (let index = 0; index < 10; index++) {
+    estatusPedido();
+}
 
-// Versión 1
-emisorProductos.on("compra", () => {
-    console.log(`Se realizó una compra.`);
+const miPedidoDePizza = new Promise((resolve, reject) => {
+    setTimeout(() => {
+        if (estatusPedido()) {
+            resolve("Pedido exitoso! Su pizza está en camino.");
+        } else {
+            reject("Ocurrió un error. Por favor intente nuevamente.");
+        }
+    }, 1000);
 });
 
-// Versión 2
-emisorProductos.on("compra", (total) => {
-    console.log(`Se realizó una compra por $${total}.`);
-});
+// const manejarPedido = (mensajeDeConfirmacion) => {
+//     console.log(mensajeDeConfirmacion);
+// };
 
-// Versión 3
-emisorProductos.on("compra", (total, numProductos) => {
-    console.log(`Total de la compra: $${total}.`);
-    console.log(`Número de productos: ${numProductos}.`);
-});
+// const rechazarPedido = (mensajeDeError) => {
+//     console.log(mensajeDeError);
+// };
 
-emisorProductos.emit("compra");
-emisorProductos.emit("compra", 500);
-emisorProductos.emit("compra", 500, 5);
+// miPedidoDePizza.then(manejarPedido, rechazarPedido);
+
+miPedidoDePizza
+    .then((mensajeDeConfirmacion) => console.log(mensajeDeConfirmacion))
+    .then(null, (mensajeDeError) => console.log(mensajeDeError));
