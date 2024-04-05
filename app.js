@@ -1,10 +1,12 @@
 const http = require("http");
-const cursos = require("./cursos");
+const { infoCursos } = require("./cursos");
 
 const servidor = http.createServer((req, res) => {
-    const { method } = req;
+    const metodo = req.method;
 
-    switch (method) {
+    console.log(req.headers);
+
+    switch (metodo) {
         case "GET":
             return manejarSolicitudGET(req, res);
         case "POST":
@@ -14,8 +16,9 @@ const servidor = http.createServer((req, res) => {
         case "DELETE":
             return manejarSolicitudDELETE(req, res);
         default:
-            console.log(
-                `El método no puede ser manejado por el servidor: ${method}`
+            res.statusCode = 501;
+            res.end(
+                `El método no puede ser manejado por el servidor: ${metodo}`
             );
     }
 });
@@ -23,15 +26,17 @@ const servidor = http.createServer((req, res) => {
 function manejarSolicitudGET(req, res) {
     const path = req.url;
 
+    console.log(res.statusCode); // 200 OK
+
     if (path === "/") {
-        res.statusCode = 200;
+        res.writeHead(200, {
+            "Content-Type": "application/json",
+        });
         res.end("Bienvenidos a mi primer servidor y API creados con Node.js");
     } else if (path === "/cursos") {
-        res.statusCode = 200;
-        res.end(JSON.stringify(cursos.infoCursos));
+        res.end(JSON.stringify(infoCursos));
     } else if (path === "/cursos/programacion") {
-        res.statusCode === 200;
-        res.end(JSON.stringify(cursos.infoCursos.programacion));
+        res.end(JSON.stringify(infoCursos.programacion));
     } else {
         res.statusCode = 404;
         res.end("El recurso solicitado no existe...");
@@ -42,10 +47,30 @@ function manejarSolicitudPOST(req, res) {
     const path = req.url;
 
     if (path === "/cursos/programacion") {
-        res.statusCode = 200;
-        res.end(
-            "El servidor recibió una solicitud POST para /cursos/programacion"
-        );
+        let cuerpo = "";
+
+        req.on("data", (contenido) => {
+            cuerpo += contenido.toString();
+        });
+
+        req.on("end", () => {
+            console.log(cuerpo);
+            console.log(typeof cuerpo);
+
+            cuerpo = JSON.parse(cuerpo);
+
+            console.log(typeof cuerpo);
+
+            console.log(cuerpo.titulo);
+
+            res.end(
+                "El servidor recibió una solicitud POST para /cursos/programacion"
+            );
+        });
+
+        // res.end(
+        //     "El servidor recibió una solicitud POST para /cursos/programacion"
+        // );
     }
 }
 
@@ -53,7 +78,6 @@ function manejarSolicitudPUT(req, res) {
     const path = req.url;
 
     if (path === "/cursos/programacion/1") {
-        res.statusCode = 200;
         res.end(
             "El servidor recibió una solicitud PUT para /cursos/programacion/1"
         );
@@ -64,7 +88,6 @@ function manejarSolicitudDELETE(req, res) {
     const path = req.url;
 
     if (path === "/cursos/programacion/1") {
-        res.statusCode = 200;
         res.end(
             "El servidor recibió una solicitud DELETE para /cursos/programacion/1"
         );
