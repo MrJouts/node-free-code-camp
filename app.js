@@ -1,24 +1,10 @@
-const http = require("http");
+const miURL = new URL(
+    "https://www.ejemplo.org/cursos/programacion?ordenar=vistas&nivel=1"
+);
 
-const servidor = http.createServer((req, res) => {
-    // console.log("===> req (solicitud)");
-    // console.log(req.url);
-    // console.log(req.method);
-    // console.log(req.headers);
+console.log(miURL.hostname); // www.ejemplo.com
+console.log(miURL.pathname); // cursos/programacion
 
-    console.log("===> res (respuesta)");
-    console.log(res.statusCode); // 200 OK
-    // res.statusCode = 404;
-    console.log(res.statusCode); // 404 Not Found
-
-    res.setHeader("content-type", "application/json");
-
-    console.log(res.getHeaders());
-
-    res.end("Hola mundo");
-});
-
-const puerto = 3000;
-servidor.listen(puerto, () => {
-    console.log(`El servidor está escuchando en el puerto ${puerto}...`);
-});
+console.log(miURL.searchParams); // URLSearchParams { 'ordenar' => 'vistas', 'nivel' => '1' }
+console.log(miURL.searchParams.get("ordenar")); // vistas
+console.log(miURL.searchParams.get("nivel")); // 1
